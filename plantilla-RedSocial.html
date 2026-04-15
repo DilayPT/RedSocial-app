@@ -9,7 +9,49 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+html, body, h1, h2, h3, h4, h5 { font-family: "Open Sans", sans-serif; }
+
+.comment-box {
+  border-top: 1px solid #eee;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+.comment-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.comment-bubble {
+  background: #f0f2f5;
+  border-radius: 18px;
+  padding: 8px 14px;
+  max-width: 85%;
+}
+.comment-bubble strong { font-size: 0.85em; }
+.comment-bubble p { margin: 2px 0 0; font-size: 0.9em; }
+.comment-time { font-size: 0.75em; color: #999; margin-left: 44px; }
+
+.like-btn.liked {
+  background-color: #3d5a8a !important;
+  color: #fff !important;
+}
+.post-card { transition: box-shadow 0.2s; }
+.post-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+
+.new-post-animate {
+  animation: slideIn 0.4s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body class="w3-theme-l5">
@@ -23,7 +65,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="perfil.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Mi perfil"><i class="fa fa-user"></i></a>
   <a href="chat.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Mensajes"><i class="fa fa-envelope"></i></a>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notificaciones"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
+    <button class="w3-button w3-padding-large" title="Notificaciones"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="#" class="w3-bar-item w3-button">Una nueva solicitud de amistad</a>
       <a href="#" class="w3-bar-item w3-button">John Doe publicó en tu muro</a>
@@ -49,64 +91,41 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
-  <!-- The Grid -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
   <div class="w3-row">
-    <!-- Left Column -->
+
+    <!-- ── Columna Izquierda ── -->
     <div class="w3-col m3">
-      <!-- Profile -->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center">Mi Perfil</h4>
-         <p class="w3-center"><img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-         <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Diseñador UI</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Londres, Reino Unido</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> 1 de abril, 1988</p>
+          <h4 class="w3-center">Mi Perfil</h4>
+          <p class="w3-center"><img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+          <p class="w3-center w3-large" id="sidebar-nombre">Cargando...</p>
+          <hr>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Diseñador UI</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> Londres, Reino Unido</p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> 1 de abril, 1988</p>
         </div>
       </div>
       <br>
-      
-      <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Mis Grupos</button>
-          <div id="Demo1" class="w3-hide w3-container">
-            <p>Algunos grupos...</p>
-          </div>
+          <div id="Demo1" class="w3-hide w3-container"><p>Diseñadores UI/UX<br>Desarrollo Web<br>Fotografía Creativa</p></div>
           <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Mis Eventos</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Algunos eventos...</p>
-          </div>
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Mis Fotos</button>
+          <div id="Demo2" class="w3-hide w3-container"><p>Reunión de diseño — Viernes 15:00</p></div>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-camera fa-fw w3-margin-right"></i> Mis Fotos</button>
           <div id="Demo3" class="w3-hide w3-container">
-         <div class="w3-row-padding">
-         <br>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-         </div>
+            <div class="w3-row-padding"><br>
+              <div class="w3-half"><img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom"></div>
+              <div class="w3-half"><img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom"></div>
+              <div class="w3-half"><img src="https://www.w3schools.com/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom"></div>
+              <div class="w3-half"><img src="https://www.w3schools.com/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom"></div>
+            </div>
           </div>
-        </div>      
+        </div>
       </div>
       <br>
-      
-      <!-- Intereses --> 
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
           <p>Intereses</p>
@@ -117,86 +136,149 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <span class="w3-tag w3-small w3-theme-d2">Juegos</span>
             <span class="w3-tag w3-small w3-theme-d1">Amigos</span>
             <span class="w3-tag w3-small w3-theme">Música</span>
-            <span class="w3-tag w3-small w3-theme-l1">Viajes</span>
             <span class="w3-tag w3-small w3-theme-l2">Comida</span>
             <span class="w3-tag w3-small w3-theme-l3">Arte</span>
-            <span class="w3-tag w3-small w3-theme-l4">Fotos</span>
           </p>
         </div>
       </div>
-      <br>
-      
-      <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-          <i class="fa fa-remove"></i>
-        </span>
-        <p><strong>¡Hey!</strong></p>
-        <p>La gente está viendo tu perfil. Descubre quién.</p>
-      </div>
-    
-    <!-- End Left Column -->
     </div>
-    
-    <!-- Middle Column -->
+
+    <!-- ── Columna Central ── -->
     <div class="w3-col m7">
-    
+
+      <!-- Caja de publicar -->
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">¿Qué estás pensando?</h6>
-              <p contenteditable="true" class="w3-border w3-padding">Comparte algo...</p>
-              <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Publicar</button> 
+              <h6 class="w3-opacity">¿Qué estás pensando, <span id="post-autor-nombre">Usuario</span>?</h6>
+              <textarea id="nuevo-post-texto" class="w3-input w3-border w3-round" rows="3" placeholder="Comparte algo con tus amigos..."></textarea>
+              <div class="w3-margin-top w3-right">
+                <button type="button" onclick="publicarPost()" class="w3-button w3-theme w3-round"><i class="fa fa-pencil"></i>  Publicar</button>
+              </div>
+              <div style="clear:both"></div>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">1 min</span>
-        <h4>John Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-            </div>
-            <div class="w3-half">
-              <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-          </div>
-        </div>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Me gusta</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comentar</button> 
-      </div>
-      
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar5.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">16 min</span>
-        <h4>Jane Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Me gusta</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comentar</button> 
-      </div>  
+      <br>
 
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">32 min</span>
-        <h4>Angie Jane</h4><br>
-        <hr class="w3-clear">
-        <p>¿Han visto esto?</p>
-        <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Me gusta</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comentar</button> 
-      </div> 
-      
-    <!-- End Middle Column -->
+      <!-- ── Feed de posts ── -->
+      <div id="feed">
+
+        <!-- POST 1 -->
+        <div class="w3-container w3-card w3-white w3-round w3-margin post-card" id="post-1"><br>
+          <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:50px">
+          <span class="w3-right w3-opacity w3-small">Hace 1 min</span>
+          <strong>John Doe</strong><br>
+          <span class="w3-opacity w3-small">Diseñador · Londres</span>
+          <hr class="w3-clear">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-half"><img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" alt="Photo" class="w3-margin-bottom"></div>
+            <div class="w3-half"><img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" alt="Photo" class="w3-margin-bottom"></div>
+          </div>
+          <!-- Botones -->
+          <div class="w3-margin-bottom">
+            <button id="like-btn-post-1" class="like-btn w3-button w3-theme-d1 w3-round w3-small w3-margin-right" onclick="toggleLike('post-1')">
+              <i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark" id="like-count-post-1">24</span>
+            </button>
+            <button class="w3-button w3-theme-d2 w3-round w3-small w3-margin-right" onclick="toggleComments('post-1')">
+              <i class="fa fa-comment"></i> Comentar &nbsp;<span class="w3-badge w3-white w3-text-dark" id="comment-count-post-1">2</span>
+            </button>
+            <button class="w3-button w3-theme-l2 w3-round w3-small" onclick="compartir('John Doe')">
+              <i class="fa fa-share"></i> Compartir
+            </button>
+          </div>
+          <!-- Sección de comentarios -->
+          <div id="comments-post-1" class="comment-box" style="display:none">
+            <div id="comment-list-post-1"></div>
+            <div class="w3-row w3-margin-top" style="display:flex;gap:8px;align-items:center">
+              <img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="width:32px;height:32px;flex-shrink:0">
+              <input id="comment-input-post-1" class="w3-input w3-border w3-round" type="text"
+                placeholder="Escribe un comentario..."
+                onkeydown="if(event.key==='Enter') addComment('post-1')">
+              <button onclick="addComment('post-1')" class="w3-button w3-theme-d2 w3-round" style="flex-shrink:0">
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          <br>
+        </div>
+
+        <!-- POST 2 -->
+        <div class="w3-container w3-card w3-white w3-round w3-margin post-card" id="post-2"><br>
+          <img src="https://www.w3schools.com/w3images/avatar5.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:50px">
+          <span class="w3-right w3-opacity w3-small">Hace 16 min</span>
+          <strong>Jane Doe</strong><br>
+          <span class="w3-opacity w3-small">Fotógrafa · París</span>
+          <hr class="w3-clear">
+          <p>Acabo de publicar mi nuevo álbum fotográfico. ¡Espero que les guste! 📸</p>
+          <div class="w3-margin-bottom">
+            <button id="like-btn-post-2" class="like-btn w3-button w3-theme-d1 w3-round w3-small w3-margin-right" onclick="toggleLike('post-2')">
+              <i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark" id="like-count-post-2">11</span>
+            </button>
+            <button class="w3-button w3-theme-d2 w3-round w3-small w3-margin-right" onclick="toggleComments('post-2')">
+              <i class="fa fa-comment"></i> Comentar &nbsp;<span class="w3-badge w3-white w3-text-dark" id="comment-count-post-2">0</span>
+            </button>
+            <button class="w3-button w3-theme-l2 w3-round w3-small" onclick="compartir('Jane Doe')">
+              <i class="fa fa-share"></i> Compartir
+            </button>
+          </div>
+          <div id="comments-post-2" class="comment-box" style="display:none">
+            <div id="comment-list-post-2"></div>
+            <div class="w3-row w3-margin-top" style="display:flex;gap:8px;align-items:center">
+              <img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="width:32px;height:32px;flex-shrink:0">
+              <input id="comment-input-post-2" class="w3-input w3-border w3-round" type="text"
+                placeholder="Escribe un comentario..."
+                onkeydown="if(event.key==='Enter') addComment('post-2')">
+              <button onclick="addComment('post-2')" class="w3-button w3-theme-d2 w3-round" style="flex-shrink:0">
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          <br>
+        </div>
+
+        <!-- POST 3 -->
+        <div class="w3-container w3-card w3-white w3-round w3-margin post-card" id="post-3"><br>
+          <img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:50px">
+          <span class="w3-right w3-opacity w3-small">Hace 32 min</span>
+          <strong>Angie Jane</strong><br>
+          <span class="w3-opacity w3-small">Desarrolladora · Berlín</span>
+          <hr class="w3-clear">
+          <p>¿Han visto esto? Increíble paisaje 🌿</p>
+          <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+          <div class="w3-margin-bottom">
+            <button id="like-btn-post-3" class="like-btn w3-button w3-theme-d1 w3-round w3-small w3-margin-right" onclick="toggleLike('post-3')">
+              <i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark" id="like-count-post-3">8</span>
+            </button>
+            <button class="w3-button w3-theme-d2 w3-round w3-small w3-margin-right" onclick="toggleComments('post-3')">
+              <i class="fa fa-comment"></i> Comentar &nbsp;<span class="w3-badge w3-white w3-text-dark" id="comment-count-post-3">1</span>
+            </button>
+            <button class="w3-button w3-theme-l2 w3-round w3-small" onclick="compartir('Angie Jane')">
+              <i class="fa fa-share"></i> Compartir
+            </button>
+          </div>
+          <div id="comments-post-3" class="comment-box" style="display:none">
+            <div id="comment-list-post-3"></div>
+            <div class="w3-row w3-margin-top" style="display:flex;gap:8px;align-items:center">
+              <img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="width:32px;height:32px;flex-shrink:0">
+              <input id="comment-input-post-3" class="w3-input w3-border w3-round" type="text"
+                placeholder="Escribe un comentario..."
+                onkeydown="if(event.key==='Enter') addComment('post-3')">
+              <button onclick="addComment('post-3')" class="w3-button w3-theme-d2 w3-round" style="flex-shrink:0">
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          <br>
+        </div>
+
+      </div><!-- fin #feed -->
     </div>
-    
-    <!-- Right Column -->
+
+    <!-- ── Columna Derecha ── -->
     <div class="w3-col m2">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
@@ -208,85 +290,261 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         </div>
       </div>
       <br>
-      
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Solicitud de amistad</p>
           <img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
           <span>Jane Doe</span>
-          <div class="w3-row w3-opacity">
+          <div class="w3-row w3-opacity w3-margin-top">
             <div class="w3-half">
-              <button class="w3-button w3-block w3-green w3-section" title="Aceptar"><i class="fa fa-check"></i></button>
+              <button class="w3-button w3-block w3-green w3-section" onclick="responderSolicitud(this,'aceptar')" title="Aceptar"><i class="fa fa-check"></i></button>
             </div>
             <div class="w3-half">
-              <button class="w3-button w3-block w3-red w3-section" title="Rechazar"><i class="fa fa-remove"></i></button>
+              <button class="w3-button w3-block w3-red w3-section" onclick="responderSolicitud(this,'rechazar')" title="Rechazar"><i class="fa fa-remove"></i></button>
             </div>
           </div>
         </div>
       </div>
       <br>
-      
       <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
-        <p>ADS</p>
+        <p class="w3-opacity">Publicidad</p>
+        <p><i class="fa fa-star w3-large w3-text-theme"></i></p>
       </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-        <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
-      
-    <!-- End Right Column -->
     </div>
-    
-  <!-- End Grid -->
+
   </div>
-  
-<!-- End Page Container -->
 </div>
 <br>
 
-<!-- Footer -->
+<!-- Toast de notificación -->
+<div id="toast" style="display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  background:#323232;color:#fff;padding:12px 24px;border-radius:24px;z-index:9999;font-size:0.9em;">
+</div>
+
 <footer class="w3-container w3-theme-d3 w3-padding-16">
   <h5>RedSocial © 2025</h5>
 </footer>
 
-<footer class="w3-container w3-theme-d5">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
- 
 <script>
-// ── Ruta restringida: redirigir al login si no hay sesión activa ──
+// ── Ruta restringida ──
 (function() {
   if (!sessionStorage.getItem('rs_usuario')) {
     window.location.href = 'login.html';
   }
 })();
 
-// Cerrar sesión
-function cerrarSesion() {
-  sessionStorage.removeItem('rs_usuario');
-  window.location.href = 'login.html';
+// Datos del usuario actual
+var usuarioActual = JSON.parse(sessionStorage.getItem('rs_usuario') || '{"nombre":"Usuario","email":""}');
+document.getElementById('sidebar-nombre').textContent = usuarioActual.nombre;
+document.getElementById('post-autor-nombre').textContent = usuarioActual.nombre;
+
+// ── Estado de los posts ──
+var postData = {
+  'post-1': {
+    likes: 24, liked: false,
+    comments: [
+      { user: 'Jane Doe', avatar: 'https://www.w3schools.com/w3images/avatar5.png', text: '¡Qué buen contenido!', time: 'Hace 30 min' },
+      { user: 'Angie Jane', avatar: 'https://www.w3schools.com/w3images/avatar6.png', text: 'Totalmente de acuerdo 👏', time: 'Hace 15 min' }
+    ]
+  },
+  'post-2': { likes: 11, liked: false, comments: [] },
+  'post-3': {
+    likes: 8, liked: false,
+    comments: [
+      { user: 'John Doe', avatar: 'https://www.w3schools.com/w3images/avatar2.png', text: '¡Increíble foto!', time: 'Hace 20 min' }
+    ]
+  }
+};
+
+// ── LIKES ──
+function toggleLike(postId) {
+  var data = postData[postId];
+  data.liked = !data.liked;
+  data.likes += data.liked ? 1 : -1;
+
+  var btn = document.getElementById('like-btn-' + postId);
+  document.getElementById('like-count-' + postId).textContent = data.likes;
+
+  if (data.liked) {
+    btn.classList.add('liked');
+    btn.innerHTML = '<i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark">' + data.likes + '</span>';
+    showToast('❤️ ¡Le diste Me gusta!');
+  } else {
+    btn.classList.remove('liked');
+    btn.innerHTML = '<i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark">' + data.likes + '</span>';
+  }
 }
 
-// Accordion
+// ── COMENTARIOS ──
+function toggleComments(postId) {
+  var section = document.getElementById('comments-' + postId);
+  var isHidden = section.style.display === 'none';
+  section.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) {
+    renderComments(postId);
+    setTimeout(function() {
+      document.getElementById('comment-input-' + postId).focus();
+    }, 100);
+  }
+}
+
+function renderComments(postId) {
+  var list = document.getElementById('comment-list-' + postId);
+  var comments = postData[postId].comments;
+  if (comments.length === 0) {
+    list.innerHTML = '<p class="w3-opacity w3-small" style="margin:4px 0">Sé el primero en comentar...</p>';
+    return;
+  }
+  list.innerHTML = comments.map(function(c) {
+    return '<div class="comment-item">' +
+      '<img src="' + c.avatar + '" alt="Avatar">' +
+      '<div>' +
+        '<div class="comment-bubble">' +
+          '<strong>' + escapeHtml(c.user) + '</strong>' +
+          '<p>' + escapeHtml(c.text) + '</p>' +
+        '</div>' +
+        '<span class="comment-time">' + c.time + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function addComment(postId) {
+  var input = document.getElementById('comment-input-' + postId);
+  var text = input.value.trim();
+  if (!text) { input.focus(); return; }
+
+  postData[postId].comments.push({
+    user: usuarioActual.nombre,
+    avatar: 'https://www.w3schools.com/w3images/avatar3.png',
+    text: text,
+    time: 'Ahora'
+  });
+
+  var count = postData[postId].comments.length;
+  document.getElementById('comment-count-' + postId).textContent = count;
+  input.value = '';
+  renderComments(postId);
+  showToast('💬 Comentario publicado');
+}
+
+// ── PUBLICAR NUEVO POST ──
+var postCounter = 4;
+function publicarPost() {
+  var texto = document.getElementById('nuevo-post-texto').value.trim();
+  if (!texto) {
+    showToast('✏️ Escribe algo antes de publicar');
+    return;
+  }
+
+  var newId = 'post-' + postCounter++;
+  postData[newId] = { likes: 0, liked: false, comments: [] };
+
+  var ahora = new Date();
+  var hora = ahora.getHours().toString().padStart(2,'0') + ':' + ahora.getMinutes().toString().padStart(2,'0');
+
+  var html = '<div class="w3-container w3-card w3-white w3-round w3-margin post-card new-post-animate" id="' + newId + '"><br>' +
+    '<img src="https://www.w3schools.com/w3images/avatar3.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:50px">' +
+    '<span class="w3-right w3-opacity w3-small">Ahora · ' + hora + '</span>' +
+    '<strong>' + escapeHtml(usuarioActual.nombre) + '</strong><br>' +
+    '<span class="w3-opacity w3-small">' + escapeHtml(usuarioActual.email || '') + '</span>' +
+    '<hr class="w3-clear">' +
+    '<p>' + escapeHtml(texto).replace(/\n/g,'<br>') + '</p>' +
+    '<div class="w3-margin-bottom">' +
+      '<button id="like-btn-' + newId + '" class="like-btn w3-button w3-theme-d1 w3-round w3-small w3-margin-right" onclick="toggleLike(\'' + newId + '\')">' +
+        '<i class="fa fa-thumbs-up"></i> Me gusta &nbsp;<span class="w3-badge w3-white w3-text-dark" id="like-count-' + newId + '">0</span>' +
+      '</button>' +
+      '<button class="w3-button w3-theme-d2 w3-round w3-small w3-margin-right" onclick="toggleComments(\'' + newId + '\')">' +
+        '<i class="fa fa-comment"></i> Comentar &nbsp;<span class="w3-badge w3-white w3-text-dark" id="comment-count-' + newId + '">0</span>' +
+      '</button>' +
+      '<button class="w3-button w3-theme-l2 w3-round w3-small" onclick="compartir(\'' + escapeHtml(usuarioActual.nombre) + '\')">' +
+        '<i class="fa fa-share"></i> Compartir' +
+      '</button>' +
+    '</div>' +
+    '<div id="comments-' + newId + '" class="comment-box" style="display:none">' +
+      '<div id="comment-list-' + newId + '"></div>' +
+      '<div class="w3-row w3-margin-top" style="display:flex;gap:8px;align-items:center">' +
+        '<img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="width:32px;height:32px;flex-shrink:0">' +
+        '<input id="comment-input-' + newId + '" class="w3-input w3-border w3-round" type="text" placeholder="Escribe un comentario..." onkeydown="if(event.key===\'Enter\') addComment(\'' + newId + '\')">' +
+        '<button onclick="addComment(\'' + newId + '\')" class="w3-button w3-theme-d2 w3-round" style="flex-shrink:0"><i class="fa fa-paper-plane"></i></button>' +
+      '</div>' +
+    '</div><br>' +
+  '</div>';
+
+  var feed = document.getElementById('feed');
+  feed.insertAdjacentHTML('afterbegin', html);
+  document.getElementById('nuevo-post-texto').value = '';
+  showToast('✅ Publicación creada');
+}
+
+// ── COMPARTIR ──
+function compartir(autor) {
+  if (navigator.share) {
+    navigator.share({ title: 'Post de ' + autor + ' en RedSocial', url: window.location.href });
+  } else {
+    var url = window.location.href;
+    navigator.clipboard.writeText(url).then(function() {
+      showToast('🔗 Enlace copiado al portapapeles');
+    }).catch(function() {
+      showToast('🔗 Comparte este enlace: ' + url);
+    });
+  }
+}
+
+// ── SOLICITUDES DE AMISTAD ──
+function responderSolicitud(btn, accion) {
+  var card = btn.closest('.w3-container');
+  if (accion === 'aceptar') {
+    showToast('✅ Solicitud de amistad aceptada');
+  } else {
+    showToast('❌ Solicitud rechazada');
+  }
+  card.innerHTML = '<p class="w3-padding w3-opacity">' + (accion === 'aceptar' ? '¡Ahora son amigos!' : 'Solicitud rechazada') + '</p>';
+}
+
+// ── TOAST ──
+var toastTimer;
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { toast.style.display = 'none'; }, 2500);
+}
+
+// ── HELPERS ──
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── ACCORDION ──
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
     x.previousElementSibling.className += " w3-theme-d1";
-  } else { 
+  } else {
     x.className = x.className.replace("w3-show", "");
-    x.previousElementSibling.className = 
-    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+    x.previousElementSibling.className = x.previousElementSibling.className.replace(" w3-theme-d1", "");
   }
 }
 
-// Menú móvil
+// ── CERRAR SESIÓN ──
+function cerrarSesion() {
+  sessionStorage.removeItem('rs_usuario');
+  window.location.href = 'login.html';
+}
+
+// ── MENÚ MÓVIL ──
 function openNav() {
   var x = document.getElementById("navDemo");
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-  } else { 
+  } else {
     x.className = x.className.replace(" w3-show", "");
   }
 }
