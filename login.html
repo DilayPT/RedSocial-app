@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Iniciar sesión · RedSocial</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html, body, h1, h2, h3, h4, h5 { font-family: "Open Sans", sans-serif; }
+    body { background-color: #f1f1f1; }
+  </style>
+</head>
+<body class="w3-theme-l5">
+
+<!-- Navbar (página pública: solo login y registro) -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+    <a href="login.html" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>RedSocial</a>
+    <a href="login.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fa fa-sign-in"></i> Iniciar sesión</a>
+    <a href="registro.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fa fa-user-plus"></i> Registrarse</a>
+  </div>
+</div>
+
+<!-- Navbar móvil -->
+<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
+  <a href="login.html" class="w3-bar-item w3-button w3-padding-large">Iniciar sesión</a>
+  <a href="registro.html" class="w3-bar-item w3-button w3-padding-large">Registrarse</a>
+</div>
+
+<!-- Contenedor principal -->
+<div class="w3-container w3-content" style="max-width:500px; margin-top:100px;">
+  <div class="w3-card-4 w3-round-xlarge w3-white">
+    <div class="w3-container w3-theme-d2 w3-round-xlarge w3-padding-16">
+      <h2 class="w3-center">Iniciar sesión</h2>
+    </div>
+    <!-- El formulario llama a iniciarSesion() en vez de hacer submit normal -->
+    <form class="w3-container w3-padding-24" onsubmit="iniciarSesion(event)">
+      <div class="w3-section">
+        <label><i class="fa fa-envelope"></i> Correo electrónico</label>
+        <input id="email" class="w3-input w3-border w3-round" type="email" placeholder="tu@email.com" required>
+      </div>
+      <div class="w3-section">
+        <label><i class="fa fa-lock"></i> Contraseña</label>
+        <input id="password" class="w3-input w3-border w3-round" type="password" placeholder="********" required>
+      </div>
+      <div id="errorMsg" class="w3-panel w3-red w3-round" style="display:none">
+        <p>Correo o contraseña incorrectos.</p>
+      </div>
+      <div class="w3-section">
+        <button type="submit" class="w3-button w3-theme-d2 w3-round w3-block w3-section"><i class="fa fa-sign-in"></i> Acceder</button>
+      </div>
+      <p class="w3-center"><a href="#">¿Olvidaste tu contraseña?</a></p>
+      <p class="w3-center">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+// Si ya hay sesión activa, redirigir al inicio
+(function() {
+  if (sessionStorage.getItem('rs_usuario')) {
+    window.location.href = 'plantilla-RedSocial.html';
+  }
+})();
+
+// Credenciales de demostración (en un sistema real esto sería validado en el servidor)
+var USUARIOS_DEMO = [
+  { email: 'usuario@demo.com', password: '123456', nombre: 'Juan Pérez' },
+  { email: 'admin@redsocial.com', password: 'admin123', nombre: 'Admin' }
+];
+
+function iniciarSesion(e) {
+  e.preventDefault();
+  var email = document.getElementById('email').value.trim();
+  var password = document.getElementById('password').value;
+  var errorMsg = document.getElementById('errorMsg');
+
+  // Buscar usuario en la lista de demo
+  var usuario = USUARIOS_DEMO.find(function(u) {
+    return u.email === email && u.password === password;
+  });
+
+  if (usuario) {
+    // Guardar sesión y redirigir
+    sessionStorage.setItem('rs_usuario', JSON.stringify({ email: usuario.email, nombre: usuario.nombre }));
+    window.location.href = 'plantilla-RedSocial.html';
+  } else {
+    errorMsg.style.display = 'block';
+  }
+}
+
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+</body>
+</html>
